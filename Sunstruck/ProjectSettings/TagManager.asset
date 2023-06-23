@@ -9,6 +9,8 @@ TagManager:
   - Hidepoint
   - Climable
   - Enemy
+  - NextScene
+  - StunGun
   layers:
   - Default
   - TransparentFX
