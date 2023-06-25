@@ -24,22 +24,25 @@ public class InteractionSystem : MonoBehaviour
         RaycastHit2D hitbox = Physics2D.Raycast(transform.position, Vector2.right * transform.localScale.x, distance, movableObj);
         RaycastHit2D hititem = Physics2D.BoxCast(playerBox.bounds.center, playerBox.size, 0, Vector2.zero, 0, interactableObj);
         
-
-        if (hitbox.collider != null && Input.GetKeyDown(KeyCode.F))
+        if(hitbox.collider != null)
         {
-            box = hitbox.collider.gameObject;
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                box = hitbox.collider.gameObject;
 
-            box.GetComponent<FixedJoint2D>().enabled = true;
-            box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
-            box.GetComponent<StaticBox>().beingMove = true;
-            this.GetComponent<PlayerMovement>().speed /= 2f; 
+                box.GetComponent<FixedJoint2D>().enabled = true;
+                box.GetComponent<FixedJoint2D>().connectedBody = this.GetComponent<Rigidbody2D>();
+                box.GetComponent<StaticBox>().beingMove = true;
+                this.GetComponent<PlayerMovement>().speed /= 2f;
+            }
+            else if (Input.GetKeyUp(KeyCode.F))
+            {
+                box.GetComponent<FixedJoint2D>().enabled = false;
+                box.GetComponent<StaticBox>().beingMove = false;
+                this.GetComponent<PlayerMovement>().speed = 3f;
+            }
         }
-        else if (Input.GetKeyUp(KeyCode.F))
-        {
-            box.GetComponent<FixedJoint2D>().enabled = false;
-            box.GetComponent<StaticBox>().beingMove = false;
-            this.GetComponent<PlayerMovement>().speed = 3f;
-        }
+        
 
         if (hititem.collider != null && Input.GetKeyDown(KeyCode.F))
         {

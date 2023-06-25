@@ -37,9 +37,13 @@ public class EnermyProt : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(player.GetComponent<StunGun>().stunEnemy == true)
+        if(player.GetComponent<StunGun>().hit == true)
         {
-            //Animation
+            if (player.GetComponent<StunGun>().stunEnemy)
+            {
+                rb.velocity = new Vector2(0, 0);
+                //Animation
+            }
         }
         else
         {

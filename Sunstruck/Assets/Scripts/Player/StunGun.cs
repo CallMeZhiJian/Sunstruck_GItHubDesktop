@@ -9,7 +9,7 @@ public class StunGun : MonoBehaviour
     [SerializeField] private float useDuration;
 
     public bool stunEnemy;
-    private bool hit;
+    public bool hit;
 
     private float stunTimer;
     private float useTimer;
@@ -26,12 +26,30 @@ public class StunGun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(hit)
+        if (hit)
         {
             useTimer -= 1 * Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.F) && useTimer > 0)
+            {
+                Debug.Log("Stun Enemy");
+                stunEnemy = true;
+                if (stunEnemy)
+                    Physics2D.IgnoreCollision(enemyCollider, playerCollider, true);
+                ammo--;
+                useTimer = useDuration;
+            }
+            else if (useTimer <= 0)
+            {
+                if(!stunEnemy)
+                {
+                    transform.position = this.GetComponent<CheckpointRespawn>().respawnPoint;
+                }
+                useTimer = useDuration;
+                hit = false;
+            }
         }
 
-        if(stunEnemy)
+        if (stunEnemy)
         {
             stunTimer -= 1 * Time.deltaTime;
         }
@@ -39,6 +57,7 @@ public class StunGun : MonoBehaviour
         if(stunTimer <= 0)
         {
             stunEnemy = false;
+            hit = false;
             stunTimer = stunDuration;
             Physics2D.IgnoreCollision(enemyCollider, playerCollider, false);
         }
@@ -46,26 +65,26 @@ public class StunGun : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        enemyCollider = collision.otherCollider;
-        playerCollider = collision.collider;
         if (collision.collider.CompareTag("Enemy") && !GetComponent<HidingMechanism>().isHiding)
         {
-            hit = true;
-            if(GetComponent<InteractionSystem>().pickUpStunGun && ammo > 0)
+            enemyCollider = collision.otherCollider;
+            playerCollider = collision.collider;
+            if (GetComponent<InteractionSystem>().pickUpStunGun && ammo > 0)
             {
-                if (Input.GetKeyDown(KeyCode.F) && useTimer > 0)
-                {
-                    stunEnemy = true;
-                    if (stunEnemy)
-                        Physics2D.IgnoreCollision(enemyCollider, playerCollider, true);
-                    ammo--;
-                    useTimer = useDuration;
-                }
-                else if(useTimer <= 0)
-                {
-                    transform.position = this.GetComponent<CheckpointRespawn>().respawnPoint;
-                    useTimer = useDuration;
-                }                 
+                hit = true;
+                //if (Input.GetKeyDown(KeyCode.F) && useTimer > 0)
+                //{
+                //    stunEnemy = true;
+                //    if (stunEnemy)
+                //        Physics2D.IgnoreCollision(enemyCollider, playerCollider, true);
+                //    ammo--;
+                //    useTimer = useDuration;
+                //}
+                //else if(useTimer <= 0)
+                //{
+                //    transform.position = this.GetComponent<CheckpointRespawn>().respawnPoint;
+                //    useTimer = useDuration;
+                //}                 
             }
             else
                 transform.position = this.GetComponent<CheckpointRespawn>().respawnPoint;
