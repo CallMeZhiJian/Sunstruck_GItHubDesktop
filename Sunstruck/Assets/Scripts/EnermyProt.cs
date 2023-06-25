@@ -37,26 +37,34 @@ public class EnermyProt : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(CanSeekPlayer(agroRange))
+        if(player.GetComponent<StunGun>().stunEnemy == true)
         {
-            chasing();
+            //Animation
         }
         else
         {
-            walkAround();
+            if (CanSeekPlayer(agroRange))
+            {
+                chasing();
+            }
+            else
+            {
+                walkAround();
+            }
+            if (isFacingLeft)
+            {
+                endPos = Enemy.position + (Vector3.right * agroRange);
+                //Debug.Log("turn right");
+                //Debug.Log(endPos);
+            }
+            else
+            {
+                endPos = Enemy.position + (Vector3.left * agroRange);
+                //Debug.Log("turn left");
+                //Debug.Log(endPos);
+            }
         }
-        if (isFacingLeft)
-        {
-            endPos = Enemy.position + (Vector3.right * agroRange);
-            //Debug.Log("turn right");
-            //Debug.Log(endPos);
-        }
-        else
-        {
-            endPos = Enemy.position + (Vector3.left * agroRange);
-            //Debug.Log("turn left");
-            //Debug.Log(endPos);
-        }
+        
     }
 
     /*public void chase()

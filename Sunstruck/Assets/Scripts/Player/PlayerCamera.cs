@@ -103,4 +103,13 @@ public class PlayerCamera : MonoBehaviour
             transform.position = new Vector3(player.transform.position.x, Mathf.Clamp(transform.position.y, topBorder, bottomBorder), transform.position.z);
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(new Vector2(leftBorder, topBorder), new Vector2(rightBorder, topBorder));
+        Gizmos.DrawLine(new Vector2(rightBorder, topBorder), new Vector2(rightBorder, bottomBorder));
+        Gizmos.DrawLine(new Vector2(rightBorder, bottomBorder), new Vector2(leftBorder, bottomBorder));
+        Gizmos.DrawLine(new Vector2(leftBorder, bottomBorder), new Vector2(leftBorder, topBorder));
+    }
 }
