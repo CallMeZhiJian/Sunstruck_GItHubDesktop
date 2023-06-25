@@ -3270,7 +3270,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammo: 6
   stunDuration: 3
+  useDuration: 2
   stunEnemy: 0
+  hit: 0
 --- !u!1 &1821503846
 GameObject:
   m_ObjectHideFlags: 0
