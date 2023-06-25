@@ -6,11 +6,13 @@ public class StunGun : MonoBehaviour
 {
     [SerializeField] private int ammo;
     [SerializeField] private float stunDuration;
+    [SerializeField] private float useDuration;
 
     public bool stunEnemy;
+    private bool hit;
 
     private float stunTimer;
-    private bool checkOnHand;
+    private float useTimer;
     private Collider2D enemyCollider;
     private Collider2D playerCollider;
 
@@ -18,12 +20,17 @@ public class StunGun : MonoBehaviour
     void Start()
     {
         stunTimer = stunDuration;
+        useTimer = useDuration;
     }
 
     // Update is called once per frame
     void Update()
     {
-        checkOnHand = GetComponent<InteractionSystem>().pickUpStunGun;
+        if(hit)
+        {
+            useTimer -= 1 * Time.deltaTime;
+        }
+
         if(stunEnemy)
         {
             stunTimer -= 1 * Time.deltaTime;
@@ -43,17 +50,22 @@ public class StunGun : MonoBehaviour
         playerCollider = collision.collider;
         if (collision.collider.CompareTag("Enemy") && !GetComponent<HidingMechanism>().isHiding)
         {
-            if(checkOnHand && ammo > 0)
+            hit = true;
+            if(GetComponent<InteractionSystem>().pickUpStunGun && ammo > 0)
             {
-                //if(Input.GetKeyDown(KeyCode.F))
-                //{
+                if (Input.GetKeyDown(KeyCode.F) && useTimer > 0)
+                {
                     stunEnemy = true;
                     if (stunEnemy)
                         Physics2D.IgnoreCollision(enemyCollider, playerCollider, true);
                     ammo--;
-                //}
-                //else
-                //    transform.position = this.GetComponent<CheckpointRespawn>().respawnPoint;
+                    useTimer = useDuration;
+                }
+                else if(useTimer <= 0)
+                {
+                    transform.position = this.GetComponent<CheckpointRespawn>().respawnPoint;
+                    useTimer = useDuration;
+                }                 
             }
             else
                 transform.position = this.GetComponent<CheckpointRespawn>().respawnPoint;
