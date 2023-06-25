@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     public Rigidbody2D playerRb;
     private BoxCollider2D playerCollider;
+    public Animator anima;
 
     private void Awake()
     {
@@ -26,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
     {
         horizontal = Input.GetAxis("Horizontal");
         playerRb.velocity = new Vector2(horizontal * speed, playerRb.velocity.y);
+
+        anima.SetFloat("speed", Mathf.Abs(horizontal));
 
         if (horizontal > 0f)
         {
