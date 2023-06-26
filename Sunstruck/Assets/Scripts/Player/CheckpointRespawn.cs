@@ -44,11 +44,7 @@ public class CheckpointRespawn : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             respawnPoint = transform.position;
-        }
-        else
-        {
-            print("Pick up the fucking stun gun!!!!!");
-        }
+        } 
     }
 
     private void OnTriggerExit2D(Collider2D collision)
