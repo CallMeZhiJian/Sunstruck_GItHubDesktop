@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InteractionSystem : MonoBehaviour
 {
@@ -68,6 +69,12 @@ public class InteractionSystem : MonoBehaviour
         {
             pickUpStunGun = false;
             pickUpSuit = false;
+        }
+
+        if (obj.tag == "NextScene")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            GetComponent<CheckpointRespawn>().respawnPoint = transform.position;
         }
     }
 

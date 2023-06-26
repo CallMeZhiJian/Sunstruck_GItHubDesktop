@@ -92,16 +92,16 @@ public class PlayerCamera : MonoBehaviour
             }
         //}
 
-        transform.position = Vector3.Lerp(transform.position, camPos, offsetSpeed * Time.deltaTime);
-
-        if(transform.position.x < leftBorder || transform.position.x > rightBorder)
+        if (transform.position.x < leftBorder || transform.position.x > rightBorder)
         {
             transform.position = new Vector3(Mathf.Clamp(transform.position.x, leftBorder, rightBorder), player.transform.position.y + offsetY, transform.position.z);
         }
-        else if(transform.position.y < bottomBorder || transform.position.y > topBorder)
+        else if (transform.position.y < bottomBorder || transform.position.y > topBorder)
         {
             transform.position = new Vector3(player.transform.position.x, Mathf.Clamp(transform.position.y, topBorder, bottomBorder), transform.position.z);
         }
+
+        transform.position = Vector3.Lerp(transform.position, camPos, offsetSpeed * Time.deltaTime);
     }
 
     private void OnDrawGizmos()
