@@ -40,10 +40,14 @@ public class CheckpointRespawn : MonoBehaviour
             isCheckPoint = true;
         }
         
-        if(collision.CompareTag("NextScene"))
+        if(collision.CompareTag("NextScene") && GetComponent<InteractionSystem>().pickUpStunGun)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             respawnPoint = transform.position;
+        }
+        else
+        {
+            print("Pick up the fucking stun gun!!!!!");
         }
     }
 
