@@ -24,6 +24,9 @@ public class EnermyProt : MonoBehaviour
     public bool isPlayerSeek;
     public bool isFacingLeft = false;
     private Vector3 Distance = new Vector3(3,0,0);
+
+    public bool hitPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +40,7 @@ public class EnermyProt : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(player.GetComponent<StunGun>().hit == true)
+        if(player.GetComponent<StunGun>().hit && hitPlayer)
         {
             if (player.GetComponent<StunGun>().stunEnemy)
             {
@@ -224,6 +227,15 @@ public class EnermyProt : MonoBehaviour
         if(collision.gameObject.tag == "Enemy")
         {
             Physics2D.IgnoreCollision(collision.otherCollider, collision.collider);
+        }
+
+        if(collision.gameObject.tag == "Player")
+        {
+            hitPlayer = true;
+        }
+        else
+        {
+            hitPlayer = false;
         }
     }
 }
